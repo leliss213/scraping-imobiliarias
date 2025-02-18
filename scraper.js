@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const sites = require('./sites');  // Importa a lista de sites com os parâmetros
+const converterPlanilha = require('./converterPlanilha')
 
 // Função para rolar até o final da página
 async function scrollToEnd(page) {
@@ -38,7 +39,11 @@ async function coletarImoveis(page, site) {
             let pathImovel = el.querySelector(site.hrefImovel)?.getAttribute('href');
             pathImovel = (pathImovel == null) ? el.querySelector(site.hrefImovel2)?.getAttribute('href') : pathImovel;
             
-            let linkImovel = site.hostImovel + pathImovel
+            if(pathImovel != null)
+                var linkImovel = site.hostImovel + pathImovel
+            else
+                var linkImovel = site.hostImovel
+
             lista.push({ localizacao, preco, imagem, nomeSite, tipoImovel, infosImovel, linkImovel });
             
         });
@@ -81,5 +86,6 @@ async function iniciarScraping(site) {
         listaImoveis = listaImoveis.concat(imoveis);
     }
 
-    console.log(listaImoveis)
+    converterPlanilha(listaImoveis)
+    
 })();
