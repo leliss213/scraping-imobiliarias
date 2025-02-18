@@ -19,6 +19,7 @@ async function scrollToEnd(page) {
 async function coletarImoveis(page, site) {
 
     const imoveis = await page.evaluate((site) => {
+
         let lista = [];
         let elementos = document.querySelectorAll(site.containerSelector);
 
@@ -39,6 +40,7 @@ async function coletarImoveis(page, site) {
             let pathImovel = el.querySelector(site.hrefImovel)?.getAttribute('href');
             pathImovel = (pathImovel == null) ? el.querySelector(site.hrefImovel2)?.getAttribute('href') : pathImovel;
             
+            // monta o link do imovel
             if(pathImovel != null)
                 var linkImovel = site.hostImovel + pathImovel
             else
@@ -49,32 +51,98 @@ async function coletarImoveis(page, site) {
         });
 
         return lista;
+
     }, site);
 
     return imoveis;
+
 }
 
 // Função principal para iniciar o scraping
 async function iniciarScraping(site) {
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
+    var listaImoveis = []
+    var imoveis = []
+
+    var contadorPaginas = 1
 
     // Acessa o site
     await page.goto(site.url, { waitUntil: 'networkidle2', timeout: 60000 });
 
-    //await page.waitForSelector(site.hrefImovel, { timeout: 15000 });
-    //await page.waitForSelector(site.hrefImovel2, { timeout: 15000 });
+    const quantidadePaginas = await page.evaluate((site) => {return document.querySelectorAll(site.nextButtonSelector.selector).length}, site)
+    console.log(`QUANTIDADE: ${quantidadePaginas}`)
 
-    // Rola a página até carregar todos os imóveis
-    await scrollToEnd(page);
+    while(true){
 
-    // Coleta os imóveis
-    const imoveis = await coletarImoveis(page, site);
+        // Rola a página até carregar todos os imóveis
+        await scrollToEnd(page);
+
+        // Coleta os imóveis
+        imoveis = await coletarImoveis(page, site);
+        listaImoveis = listaImoveis.concat(imoveis)
+
+        var selectorVariavel = ""
+        
+        if(site.nextButtonSelector.tipoNextButton === 2){
+            selectorVariavel = `${site.nextButtonSelector.selector}:nth-of-type(${contadorPaginas})`
+        }else{
+            selectorVariavel = site.nextButtonSelector.selector
+        }
+
+        console.log(`QUANTIDADE: ${quantidadePaginas}`)
+
+        const nextButton = await page.$(selectorVariavel);
+        const nextButtonDisabled = nextButton ? await page.evaluate(el => el.getAttribute('aria-disabled') === 'true', nextButton) : true;
+
+        if(site.nextButtonSelector.tipoNextButton === 2){
+            if(contadorPaginas === quantidadePaginas){
+                break;
+            }
+        }else{
+            if(!nextButton || nextButtonDisabled || contadorPaginas === quantidadePaginas){
+                console.log(!nextButton)
+                console.log(nextButtonDisabled)
+                break;
+            }
+        }
+
+        await page.click(site.nextButtonSelector.selector);
+
+        // Aguarda a nova página carregar antes de rolar
+        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 });
+
+        await waitForScrollEnd(page);
+
+        contadorPaginas++
+        
+    }
 
     await browser.close();
 
-    return imoveis;
+    return listaImoveis;
 }
+
+async function waitForScrollEnd(page, timeout = 5000) {
+    let lastPosition = await page.evaluate(() => window.scrollY);
+    let startTime = Date.now();
+
+    while (true) {
+        await new Promise(resolve => setTimeout(resolve, 300)); // Espera um pouco entre verificações
+
+        let newPosition = await page.evaluate(() => window.scrollY);
+
+        if (newPosition === lastPosition) break; // Se a posição não mudou, o scroll terminou
+
+        lastPosition = newPosition;
+
+        if (Date.now() - startTime > timeout) {
+            console.warn("Tempo limite atingido para esperar o scroll.");
+            break; // Se demorar demais, sai do loop
+        }
+    }
+}
+
 
 // Loop através da lista de sites e realiza o scraping para cada um
 (async () => {
