@@ -71,47 +71,42 @@ async function iniciarScraping(site) {
     await page.goto(site.url, { waitUntil: 'networkidle2', timeout: 60000 });
 
     const quantidadePaginas = await page.evaluate((site) => {return document.querySelectorAll(site.nextButtonSelector.selector).length}, site)
-    console.log(`QUANTIDADE: ${quantidadePaginas}`)
 
     while(true){
 
-        // Rola a página até carregar todos os imóveis
+        // Rola a pagina ate carregar todos os imóveis
         await scrollToEnd(page);
 
         // Coleta os imóveis
         imoveis = await coletarImoveis(page, site);
         listaImoveis = listaImoveis.concat(imoveis)
 
-        var selectorVariavel = ""
-        
-        if(site.nextButtonSelector.tipoNextButton === 2){
-            selectorVariavel = `${site.nextButtonSelector.selector}:nth-of-type(${contadorPaginas})`
-        }else{
-            selectorVariavel = site.nextButtonSelector.selector
-        }
+        console.log(`Contador: ${contadorPaginas}`)
 
-        console.log(`QUANTIDADE: ${quantidadePaginas}`)
-
-        const nextButton = await page.$(selectorVariavel);
+        const nextButton = await page.$(site.nextButtonSelector.selector);
         const nextButtonDisabled = nextButton ? await page.evaluate(el => el.getAttribute('aria-disabled') === 'true', nextButton) : true;
+        var nextButtonSelectorVariable = `${site.nextButtonSelector.selector}:nth-of-type(${contadorPaginas+1}) a`
 
         if(site.nextButtonSelector.tipoNextButton === 2){
             if(contadorPaginas === quantidadePaginas){
                 break;
             }
         }else{
-            if(!nextButton || nextButtonDisabled || contadorPaginas === quantidadePaginas){
+            if(!nextButton || nextButtonDisabled){
                 console.log(!nextButton)
                 console.log(nextButtonDisabled)
                 break;
             }
         }
 
-        await page.click(site.nextButtonSelector.selector);
+        if(site.nextButtonSelector.tipoNextButton === 2){
+            await page.click(nextButtonSelectorVariable);
+        } else{
+            await page.click(site.nextButtonSelector.selector)
+        }
 
         // Aguarda a nova página carregar antes de rolar
         await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 });
-
         await waitForScrollEnd(page);
 
         contadorPaginas++
@@ -119,7 +114,6 @@ async function iniciarScraping(site) {
     }
 
     await browser.close();
-
     return listaImoveis;
 }
 
@@ -136,9 +130,10 @@ async function waitForScrollEnd(page, timeout = 5000) {
 
         lastPosition = newPosition;
 
+        // Se demorar demais, sai do loop
         if (Date.now() - startTime > timeout) {
             console.warn("Tempo limite atingido para esperar o scroll.");
-            break; // Se demorar demais, sai do loop
+            break; 
         }
     }
 }
