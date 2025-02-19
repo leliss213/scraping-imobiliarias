@@ -75,7 +75,7 @@ async function iniciarScraping(site) {
     return listaImoveis;
 }
 
-// Função para rolar até o final da página
+// Função para rolar até o final da página carregando todos os elementos
 async function scrollToEnd(page) {
     let previousHeight = 0;
     let newHeight = await page.evaluate(() => document.body.scrollHeight);
@@ -131,6 +131,7 @@ async function coletarImoveis(page, site) {
 
 }
 
+//funcao para esperar o evento de scroll da página acabar quando troca de página
 async function waitForScrollEnd(page, timeout = 5000) {
     let lastPosition = await page.evaluate(() => window.scrollY);
     let startTime = Date.now();

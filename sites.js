@@ -89,6 +89,23 @@ module.exports = [
             tipoNextButton: 1
         }
     },
+    {
+        url: 'https://www.dlimoveis-rs.com.br/imovel/venda/todos/santa-cruz-do-sul/?&vma=300000',
+        containerSelector: '.imovelcard',
+        localizacaoSelector: '.imovelcard__info__local',
+        precoSelector: '.imovelcard__valor__valor > span',
+        imagemSelector: '.imovelcard__img > img',
+        tipoImovelSelector: '.imovelcard__info__ref',
+        infosImovelSelector: '.imovelcard__info__feature > p',
+        nomeSite: 'dlimoveis',
+        hostImovel: 'https://www.dlimoveis-rs.com.br/',
+        hrefImovel: '.imovelcard__img',
+        hrefImovel2: '.imovelcard__img',
+        nextButtonSelector: {
+            selector: '.lipagina-btn-paginacao:nth-of-type()',
+            tipoNextButton: 4
+        }
+    },
     // {
     //     url: 'https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?pagina=1&id_cidade=1&valorinicial=35.001,00&valorfinal=300.000,00&id_opcao=1',
     //     containerSelector: '.row .col-sm-6',
