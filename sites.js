@@ -49,7 +49,7 @@ module.exports = [
         nomeSite: 'creditoreal',
         hostImovel: 'https://www.creditoreal.com.br',
         hrefImovel: '.iJQgSL',
-        hrefImovel2: '.eqXkQT .iJQgSL',
+        hrefImovel2: '.eqXkQT a',
         nextButtonSelector: {
             selector: ".sc-32c77bca-2",
             tipoNextButton: 2
@@ -70,6 +70,23 @@ module.exports = [
         nextButtonSelector: {
             selector: 'null',
             tipoNextButton: 3
+        }
+    },
+    {
+        url: 'https://www.predilarimoveis.com.br/venda?address=%5B%7B%22label%22%3A%22Centro%2C+Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22neighborhood%22%3A13584%2C%22city%22%3A8079%2C%22state%22%3A23%7D%7D%2C%7B%22label%22%3A%22Santo+In%C3%A1cio%2C+Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22neighborhood%22%3A13596%2C%22city%22%3A8079%2C%22state%22%3A23%7D%7D%2C%7B%22label%22%3A%22Universit%C3%A1rio%2C+Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22neighborhood%22%3A13602%2C%22city%22%3A8079%2C%22state%22%3A23%7D%7D%2C%7B%22label%22%3A%22Renascen%C3%A7a%2C+Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22neighborhood%22%3A13595%2C%22city%22%3A8079%2C%22state%22%3A23%7D%7D%2C%7B%22label%22%3A%22Goi%C3%A1s%2C+Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22neighborhood%22%3A51605%2C%22city%22%3A8079%2C%22state%22%3A23%7D%7D%2C%7B%22label%22%3A%22Avenida%2C+Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22neighborhood%22%3A13582%2C%22city%22%3A8079%2C%22state%22%3A23%7D%7D%2C%7B%22label%22%3A%22Bonfim%2C+Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22neighborhood%22%3A50282%2C%22city%22%3A8079%2C%22state%22%3A23%7D%7D%2C%7B%22label%22%3A%22Independ%C3%AAncia%2C+Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22neighborhood%22%3A51607%2C%22city%22%3A8079%2C%22state%22%3A23%7D%7D%5D&price_range=%7B%22min%22%3Anull%2C%22max%22%3A30000000%7D&sort=2&page=1',
+        containerSelector: '.card_card__dhUFB',
+        localizacaoSelector: '.vertical-property-card_neighborhood__YZK9N',
+        precoSelector: '.contracts_priceNumber__WhudD',
+        imagemSelector: '.image-gallery-image',
+        tipoImovelSelector: '.vertical-property-card_type__wZ3CC',
+        infosImovelSelector: '.vertical-property-card_characteristics__UxtL9 span',
+        nomeSite: 'predilarimoveis',
+        hostImovel: 'https://www.predilarimoveis.com.br/',
+        hrefImovel: '.image-gallery-slide > a',
+        hrefImovel2: '.carousel-card_labels__6AG_F > a',
+        nextButtonSelector: {
+            selector: '.building-card-pages_next__mmxRs > a',
+            tipoNextButton: 1
         }
     },
     // {
