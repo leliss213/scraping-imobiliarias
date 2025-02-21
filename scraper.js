@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const sites = require('./sites');  // Importa a lista de sites com os parâmetros
-const converterPlanilha = require('./converterPlanilha')
+const converterPlanilha = require('./converterPlanilha');
 
 // Loop através da lista de sites e realiza o scraping para cada um
 (async () => {
@@ -35,17 +35,37 @@ async function iniciarScraping(site) {
         // Rola a pagina ate carregar todos os imóveis
         await scrollToEnd(page);
 
+        console.log('teste:')
+        console.log(site.hrefImovel)
+        console.log(site.hrefImovel2)
+
+        await page.waitForSelector(site.hrefImovel, { timeout: 10000 });
+
         // Coleta os imóveis
         imoveis = await coletarImoveis(page, site);
         listaImoveis = listaImoveis.concat(imoveis)
 
+        var selectorNextButton = site.nextButtonSelector.selector
+        var typeNextButton = site.nextButtonSelector.tipoNextButton
+
         console.log(`Contador: ${contadorPaginas}`)
 
-        const nextButton = await page.$(site.nextButtonSelector.selector);
-        const nextButtonDisabled = nextButton ? await page.evaluate(el => el.getAttribute('aria-disabled') === 'true', nextButton) : true;
-        var nextButtonSelectorVariable = `${site.nextButtonSelector.selector}:nth-of-type(${contadorPaginas+1}) a`
+        if(typeNextButton === 4){
+            
+            var qntdNode = await page.evaluate(() => {
+                return document.querySelectorAll('.lista_imoveis_paginacao a').length;
+            });
+            
+            selectorNextButton = selectorNextButton + `:nth-of-type(${qntdNode})`
+        }
 
-        if(site.nextButtonSelector.tipoNextButton === 2){
+        console.log(selectorNextButton)
+
+        const nextButton = await page.$(selectorNextButton);
+        const nextButtonDisabled = nextButton ? await page.evaluate(el => el.getAttribute('aria-disabled') === 'true', nextButton) : true;
+        var nextButtonSelectorVariable = `${selectorNextButton}:nth-of-type(${contadorPaginas+1}) a`
+
+        if(typeNextButton === 2){
             if(contadorPaginas === quantidadePaginas){
                 break;
             }
@@ -57,14 +77,17 @@ async function iniciarScraping(site) {
             }
         }
 
-        if(site.nextButtonSelector.tipoNextButton === 2){
+        if(typeNextButton === 2){
             await page.click(nextButtonSelectorVariable);
         } else{
-            await page.click(site.nextButtonSelector.selector)
+            await page.click(selectorNextButton)
         }
 
         // Aguarda a nova página carregar antes de rolar
-        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 });
+        if(typeNextButton != 4){
+            await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 });
+        }
+        
         await waitForScrollEnd(page);
 
         contadorPaginas++
@@ -98,17 +121,17 @@ async function coletarImoveis(page, site) {
 
         elementos.forEach(el => {
 
-            let localizacao = el.querySelector(site.localizacaoSelector)?.innerText.trim() || 'Localizacao nao encontrada';
-            let preco = el.querySelector(site.precoSelector)?.innerText.trim() || 'Preco nao disponivel';
+            let localizacao = el.querySelector(site.localizacaoSelector)?.innerText.trim();
+            let preco = el.querySelector(site.precoSelector)?.innerText.trim();
 
             if(site.imagemSelector != null)
-                var imagem = el.querySelector(site.imagemSelector)?.src || 'Imagem nao encontrada';
+                var imagem = el.querySelector(site.imagemSelector)?.src;
 
             let nomeSite = site.nomeSite
-            let tipoImovel = el.querySelector(site.tipoImovelSelector)?.innerText.trim() || 'Tipo do imovel nao encontrado';
+            let tipoImovel = el.querySelector(site.tipoImovelSelector)?.innerText.trim();
 
             if(site.infosImovel != null)
-                var infosImovel = el.querySelector(site.infosImovelSelector)?.innerText.trim() || '';
+                var infosImovel = el.querySelector(site.infosImovelSelector)?.innerText.trim();
 
             let pathImovel = el.querySelector(site.hrefImovel)?.getAttribute('href');
             pathImovel = (pathImovel == null) ? el.querySelector(site.hrefImovel2)?.getAttribute('href') : pathImovel;
@@ -116,10 +139,10 @@ async function coletarImoveis(page, site) {
             // monta o link do imovel
             if(pathImovel != null)
                 var linkImovel = site.hostImovel + pathImovel
-            else
-                var linkImovel = site.hostImovel
 
-            lista.push({ localizacao, preco, tipoImovel, infosImovel, nomeSite, linkImovel, imagem });
+            if(preco || localizacao || linkImovel){
+                lista.push({ localizacao, preco, tipoImovel, infosImovel, nomeSite, linkImovel, imagem });
+            }
             
         });
 
