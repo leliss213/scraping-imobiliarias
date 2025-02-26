@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const sites = require('./sites');  // Importa a lista de sites com os parâmetros
 const converterPlanilha = require('./converterPlanilha');
+const fs = require('fs');
 
 // Loop através da lista de sites e realiza o scraping para cada um
 (async () => {
@@ -11,6 +12,11 @@ const converterPlanilha = require('./converterPlanilha');
         const imoveis = await iniciarScraping(site);
         listaImoveis = listaImoveis.concat(imoveis);
     }
+
+    listaImoveis.sort((a, b) => a.preco - b.preco);
+
+    const jsonData = JSON.stringify(listaImoveis.sort(), null, 2); 
+    fs.writeFileSync("imoveis.json", jsonData, "utf-8");
 
     converterPlanilha(listaImoveis)
     
