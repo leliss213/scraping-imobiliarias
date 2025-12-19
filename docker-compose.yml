@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persiste os arquivos gerados (json e xlsx) na pasta local
+      - ./imoveis.json:/app/imoveis.json
+      - ./imoveis.xlsx:/app/imoveis.xlsx
+      # Mapeia logs se necessário, ou outros arquivos
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    # Opcional: Garante que o puppeteer tenha memória suficiente /dev/shm
+    shm_size: '1gb'

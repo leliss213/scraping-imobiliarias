@@ -47,12 +47,9 @@ app.post('/api/scrape', (req, res) => {
 app.listen(PORT, async () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 
-    // Abre o navegador apenas se NÃO estiver em produção (Render definirá NODE_ENV)
-    if (process.env.NODE_ENV !== 'production') {
-        try {
-            await open(`http://localhost:${PORT}`);
-        } catch (e) {
-            console.log("Não foi possível abrir o navegador automaticamente.");
-        }
+    try {
+        await open(`http://localhost:${PORT}`);
+    } catch (e) {
+        console.log("Não foi possível abrir o navegador automaticamente.");
     }
 });

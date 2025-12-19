@@ -25,7 +25,12 @@ const fs = require('fs');
 // Funcao principal para iniciar o scraping
 async function iniciarScraping(site) {
     const browser = await puppeteer.launch({
-        headless: false
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage'
+        ]
     });
     const page = await browser.newPage();
     var listaImoveis = []
@@ -43,7 +48,6 @@ async function iniciarScraping(site) {
         // Rola a pagina ate carregar todos os imoveis
         await scrollToEnd(page);
 
-        console.log('teste:')
         console.log(site.hrefImovel)
         console.log(site.hrefImovel2)
 

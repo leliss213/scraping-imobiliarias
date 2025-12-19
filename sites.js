@@ -109,23 +109,23 @@ module.exports = [
             selector: ".lipagina-btn-paginacao",
             tipoNextButton: 4
         }
+    },
+    {
+        //url: 'https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?pagina=1&id_cidade=1&valorinicial=35.001,00&valorfinal=300.000,00&id_opcao=1',
+        url: 'https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?id_opcao=2&id_tipo=0&id_cidade=0&dormitorios=&valorinicial=&valorfinal=&cod=&ok=',
+        containerSelector: '.row .col-sm-6',
+        localizacaoSelector: '.info .text p:nth-of-type(2)',
+        precoSelector: '.info .text p:nth-of-type(3) span',
+        imagemSelector: null,
+        tipoImovelSelector: '.info .text p',
+        infosImovelSelector: null,
+        nomeSite: 'imoveismegha',
+        hostImovel: '.margin-bottom a',
+        hrefImovel: null,
+        hrefImovel2: null,
+        nextButtonSelector: {
+            selector: ".glyphicon-chevron-right",
+            tipoNextButton: 1
+        }
     }
-    // {
-    //     //url: 'https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?pagina=1&id_cidade=1&valorinicial=35.001,00&valorfinal=300.000,00&id_opcao=1',
-    //     url: 'https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?id_opcao=2&id_tipo=0&id_cidade=0&dormitorios=&valorinicial=&valorfinal=&cod=&ok=',
-    //     containerSelector: '.row .col-sm-6',
-    //     localizacaoSelector: '.info .text p:nth-of-type(2)',
-    //     precoSelector: '.info .text p:nth-of-type(3) span',
-    //     imagemSelector: null,
-    //     tipoImovelSelector: '.info .text p',
-    //     infosImovelSelector: null,
-    //     nomeSite: 'imoveismegha',
-    //     hostImovel: '.margin-bottom a',
-    //     hrefImovel: null,
-    //     hrefImovel2: null,
-    //     nextButtonSelector: {
-    //         selector: ".glyphicon-chevron-right",
-    //         tipoNextButton: 1
-    //     }
-    // }
 ];
