@@ -33,6 +33,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Lógica do tema do site
+    const btnThemeToggle = document.getElementById('btnThemeToggle');
+    const iconTheme = btnThemeToggle.querySelector('i');
+    const body = document.body;
+
+    // Salva o modo do tema
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        iconTheme.classList.replace('fa-moon', 'fa-sun');
+    }
+
+    btnThemeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const isDark = body.classList.contains('dark-mode');
+
+        if (isDark) {
+            iconTheme.classList.replace('fa-moon', 'fa-sun');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            iconTheme.classList.replace('fa-sun', 'fa-moon');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
     // Modal de configurações dos sites
     const modal = document.getElementById('settingsModal');
     const settingsContainer = document.getElementById('sitesConfigContainer');
