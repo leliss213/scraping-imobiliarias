@@ -1,9 +1,9 @@
 const puppeteer = require('puppeteer');
-const sites = require('./sites');  // Importa a lista de sites com os parâmetros
+const sites = require('./sites');  // Importa a lista de sites com os parametros
 const converterPlanilha = require('./converterPlanilha');
 const fs = require('fs');
 
-// Loop através da lista de sites e realiza o scraping para cada um
+// Loop atraves da lista de sites e realiza o scraping para cada um
 (async () => {
     let listaImoveis = [];
 
@@ -15,16 +15,18 @@ const fs = require('fs');
 
     listaImoveis.sort((a, b) => a.preco - b.preco);
 
-    const jsonData = JSON.stringify(listaImoveis.sort(), null, 2); 
+    const jsonData = JSON.stringify(listaImoveis.sort(), null, 2);
     fs.writeFileSync("imoveis.json", jsonData, "utf-8");
 
     converterPlanilha(listaImoveis)
-    
+
 })();
 
-// Função principal para iniciar o scraping
+// Funcao principal para iniciar o scraping
 async function iniciarScraping(site) {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({
+        headless: true
+    });
     const page = await browser.newPage();
     var listaImoveis = []
     var imoveis = []
@@ -34,11 +36,11 @@ async function iniciarScraping(site) {
     // Acessa o site
     await page.goto(site.url, { waitUntil: 'networkidle2', timeout: 60000 });
 
-    const quantidadePaginas = await page.evaluate((site) => {return document.querySelectorAll(site.nextButtonSelector.selector).length}, site)
+    const quantidadePaginas = await page.evaluate((site) => { return document.querySelectorAll(site.nextButtonSelector.selector).length }, site)
 
-    while(true){
+    while (true) {
 
-        // Rola a pagina ate carregar todos os imóveis
+        // Rola a pagina ate carregar todos os imoveis
         await scrollToEnd(page);
 
         console.log('teste:')
@@ -47,7 +49,7 @@ async function iniciarScraping(site) {
 
         await page.waitForSelector(site.hrefImovel, { timeout: 10000 });
 
-        // Coleta os imóveis
+        // Coleta os imï¿½veis
         imoveis = await coletarImoveis(page, site);
         listaImoveis = listaImoveis.concat(imoveis)
 
@@ -56,12 +58,12 @@ async function iniciarScraping(site) {
 
         console.log(`Contador: ${contadorPaginas}`)
 
-        if(typeNextButton === 4){
-            
+        if (typeNextButton === 4) {
+
             var qntdNode = await page.evaluate(() => {
                 return document.querySelectorAll('.lista_imoveis_paginacao a').length;
             });
-            
+
             selectorNextButton = selectorNextButton + `:nth-of-type(${qntdNode})`
         }
 
@@ -69,42 +71,42 @@ async function iniciarScraping(site) {
 
         const nextButton = await page.$(selectorNextButton);
         const nextButtonDisabled = nextButton ? await page.evaluate(el => el.getAttribute('aria-disabled') === 'true', nextButton) : true;
-        var nextButtonSelectorVariable = `${selectorNextButton}:nth-of-type(${contadorPaginas+1}) a`
+        var nextButtonSelectorVariable = `${selectorNextButton}:nth-of-type(${contadorPaginas + 1}) a`
 
-        if(typeNextButton === 2){
-            if(contadorPaginas === quantidadePaginas){
+        if (typeNextButton === 2) {
+            if (contadorPaginas === quantidadePaginas) {
                 break;
             }
-        }else{
-            if(!nextButton || nextButtonDisabled){
+        } else {
+            if (!nextButton || nextButtonDisabled) {
                 console.log(!nextButton)
                 console.log(nextButtonDisabled)
                 break;
             }
         }
 
-        if(typeNextButton === 2){
+        if (typeNextButton === 2) {
             await page.click(nextButtonSelectorVariable);
-        } else{
+        } else {
             await page.click(selectorNextButton)
         }
 
-        // Aguarda a nova página carregar antes de rolar
-        if(typeNextButton != 4){
+        // Aguarda a nova pagina carregar antes de rolar
+        if (typeNextButton != 4) {
             await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 });
         }
-        
+
         await waitForScrollEnd(page);
 
         contadorPaginas++
-        
+
     }
 
     await browser.close();
     return listaImoveis;
 }
 
-// Função para rolar até o final da página carregando todos os elementos
+// Funcao para rolar ate o final da pagina carregando todos os elementos
 async function scrollToEnd(page) {
     let previousHeight = 0;
     let newHeight = await page.evaluate(() => document.body.scrollHeight);
@@ -117,7 +119,7 @@ async function scrollToEnd(page) {
     }
 }
 
-// Função para coletar imóveis a partir dos seletores específicos
+// Funcao para coletar imoveis a partir dos seletores especificos
 async function coletarImoveis(page, site) {
 
     const imoveis = await page.evaluate((site) => {
@@ -130,26 +132,26 @@ async function coletarImoveis(page, site) {
             let localizacao = el.querySelector(site.localizacaoSelector)?.innerText.trim();
             let preco = el.querySelector(site.precoSelector)?.innerText.trim();
 
-            if(site.imagemSelector != null)
+            if (site.imagemSelector != null)
                 var imagem = el.querySelector(site.imagemSelector)?.src;
 
             let nomeSite = site.nomeSite
             let tipoImovel = el.querySelector(site.tipoImovelSelector)?.innerText.trim();
 
-            if(site.infosImovel != null)
+            if (site.infosImovel != null)
                 var infosImovel = el.querySelector(site.infosImovelSelector)?.innerText.trim();
 
             let pathImovel = el.querySelector(site.hrefImovel)?.getAttribute('href');
             pathImovel = (pathImovel == null) ? el.querySelector(site.hrefImovel2)?.getAttribute('href') : pathImovel;
-            
+
             // monta o link do imovel
-            if(pathImovel != null)
+            if (pathImovel != null)
                 var linkImovel = site.hostImovel + pathImovel
 
-            if(preco || localizacao || linkImovel){
+            if (preco || localizacao || linkImovel) {
                 lista.push({ localizacao, preco, tipoImovel, infosImovel, nomeSite, linkImovel, imagem });
             }
-            
+
         });
 
         return lista;
@@ -160,24 +162,24 @@ async function coletarImoveis(page, site) {
 
 }
 
-//funcao para esperar o evento de scroll da página acabar quando troca de página
+//funcao para esperar o evento de scroll da pï¿½gina acabar quando troca de pï¿½gina
 async function waitForScrollEnd(page, timeout = 5000) {
     let lastPosition = await page.evaluate(() => window.scrollY);
     let startTime = Date.now();
 
     while (true) {
-        await new Promise(resolve => setTimeout(resolve, 300)); // Espera um pouco entre verificações
+        await new Promise(resolve => setTimeout(resolve, 300)); // Espera um pouco entre verificaï¿½ï¿½es
 
         let newPosition = await page.evaluate(() => window.scrollY);
 
-        if (newPosition === lastPosition) break; // Se a posição não mudou, o scroll terminou
+        if (newPosition === lastPosition) break; // Se a posiï¿½ï¿½o nï¿½o mudou, o scroll terminou
 
         lastPosition = newPosition;
 
         // Se demorar demais, sai do loop
         if (Date.now() - startTime > timeout) {
             console.warn("Tempo limite atingido para esperar o scroll.");
-            break; 
+            break;
         }
     }
 }

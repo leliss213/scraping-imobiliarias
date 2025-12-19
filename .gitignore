@@ -1,0 +1,5 @@
+node_modules
+*.log
+imoveis.json
+imoveis.xlsx
+.DS_Store
