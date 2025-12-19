@@ -25,7 +25,7 @@ const fs = require('fs');
 // Funcao principal para iniciar o scraping
 async function iniciarScraping(site) {
     const browser = await puppeteer.launch({
-        headless: true
+        headless: false
     });
     const page = await browser.newPage();
     var listaImoveis = []
@@ -47,9 +47,11 @@ async function iniciarScraping(site) {
         console.log(site.hrefImovel)
         console.log(site.hrefImovel2)
 
-        await page.waitForSelector(site.hrefImovel, { timeout: 10000 });
+        if (site.hrefImovel) {
+            await page.waitForSelector(site.hrefImovel, { timeout: 10000 });
+        }
 
-        // Coleta os im�veis
+        // Coleta os imoveis
         imoveis = await coletarImoveis(page, site);
         listaImoveis = listaImoveis.concat(imoveis)
 
@@ -93,7 +95,7 @@ async function iniciarScraping(site) {
 
         // Aguarda a nova pagina carregar antes de rolar
         if (typeNextButton != 4) {
-            await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 });
+            await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 });
         }
 
         await waitForScrollEnd(page);
@@ -162,17 +164,17 @@ async function coletarImoveis(page, site) {
 
 }
 
-//funcao para esperar o evento de scroll da p�gina acabar quando troca de p�gina
+//funcao para esperar o evento de scroll da pagina acabar quando troca de pagina
 async function waitForScrollEnd(page, timeout = 5000) {
     let lastPosition = await page.evaluate(() => window.scrollY);
     let startTime = Date.now();
 
     while (true) {
-        await new Promise(resolve => setTimeout(resolve, 300)); // Espera um pouco entre verifica��es
+        await new Promise(resolve => setTimeout(resolve, 300)); // Espera um pouco entre verificaçoes
 
         let newPosition = await page.evaluate(() => window.scrollY);
 
-        if (newPosition === lastPosition) break; // Se a posi��o n�o mudou, o scroll terminou
+        if (newPosition === lastPosition) break; // Se a posicao nao mudou, o scroll terminou
 
         lastPosition = newPosition;
 

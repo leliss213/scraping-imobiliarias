@@ -6,7 +6,7 @@ const sites = require('./sites');
 const { exec } = require('child_process');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Serve arquivos estáticos da pasta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,6 +45,14 @@ app.post('/api/scrape', (req, res) => {
 });
 
 app.listen(PORT, async () => {
-    // Abre o navegador automaticamente
-    await open(`http://localhost:${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
+
+    // Abre o navegador apenas se NÃO estiver em produção (Render definirá NODE_ENV)
+    if (process.env.NODE_ENV !== 'production') {
+        try {
+            await open(`http://localhost:${PORT}`);
+        } catch (e) {
+            console.log("Não foi possível abrir o navegador automaticamente.");
+        }
+    }
 });
