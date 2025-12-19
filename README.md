@@ -6,7 +6,7 @@ Este projeto é uma aplicação que centraliza anúncios de múltiplas imobiliá
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 *   **🕵️ Scraper Inteligente**: Coleta dados (preço, localização, fotos, detalhes) de diversos sites imobiliários automaticamente.
 *   **📊 Dashboard Centralizado**: Visualize todos os imóveis em um só lugar.

@@ -21,23 +21,29 @@
 }
 
 body.dark-mode {
-    --primary-color: #3b82f6;
-    --secondary-color: #60a5fa;
-    --background-color: #0f172a;
-    --card-bg: #1e293b;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
+    --primary-color: #60a5fa;
+    --secondary-color: #93c5fd;
+    --background-color: #09090b;
+    /* Zinc 950 - Deep black/gray */
+    --card-bg: #18181b;
+    /* Zinc 900 */
+    --text-primary: #e4e4e7;
+    /* Zinc 200 */
+    --text-secondary: #a1a1aa;
+    /* Zinc 400 */
     --accent-color: #f87171;
     --success-color: #34d399;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
 
-    --input-bg: #1e293b;
-    --input-border: #334155;
-    --modal-bg: #1e293b;
-    --modal-overlay: rgba(0, 0, 0, 0.7);
-    --config-item-bg: #334155;
+    --input-bg: #27272a;
+    /* Zinc 800 */
+    --input-border: #3f3f46;
+    /* Zinc 700 */
+    --modal-bg: #18181b;
+    --modal-overlay: rgba(0, 0, 0, 0.85);
+    --config-item-bg: #27272a;
 }
 
 * {
