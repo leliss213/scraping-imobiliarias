@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const sites = require('./sites');  // Importa a lista de sites com os parametros
+const sites = require('./sites.json');  // Importa a lista de sites do JSON
 const converterPlanilha = require('./converterPlanilha');
 const fs = require('fs');
 
@@ -13,6 +13,7 @@ const fs = require('fs');
         listaImoveis = listaImoveis.concat(imoveis);
     }
 
+    // Ordena a lista de imoveis por preco
     listaImoveis.sort((a, b) => a.preco - b.preco);
 
     const jsonData = JSON.stringify(listaImoveis.sort(), null, 2);
@@ -105,7 +106,6 @@ async function iniciarScraping(site) {
         await waitForScrollEnd(page);
 
         contadorPaginas++
-
     }
 
     await browser.close();

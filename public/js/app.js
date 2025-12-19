@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     carregarImoveis();
 
-    // Search Filter
+    // Input de busca
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', (e) => {
         const termo = e.target.value.toLowerCase();
         filtrarImoveis(termo);
     });
 
-    // Update Button
+    // Botão de atualização da lista de imóveis
     const btnUpdate = document.getElementById('btnUpdate');
     btnUpdate.addEventListener('click', async () => {
         if (!confirm("Isso irá iniciar o scraper e pode demorar alguns minutos. O navegador irá abrir e fechar sozinho. Deseja continuar?")) return;
@@ -32,6 +32,63 @@ document.addEventListener("DOMContentLoaded", () => {
             btnUpdate.innerHTML = '<i class="fa-solid fa-sync"></i> Tentar Novamente';
         }
     });
+
+    // Modal de configurações dos sites
+    const modal = document.getElementById('settingsModal');
+    const settingsContainer = document.getElementById('sitesConfigContainer');
+    let currentSitesConfig = [];
+
+    document.getElementById('btnSettings').addEventListener('click', async () => {
+        modal.classList.remove('hidden');
+        settingsContainer.innerHTML = '<div class="loading-spinner">Carregando...</div>';
+
+        try {
+            const res = await fetch('/api/sites');
+            currentSitesConfig = await res.json();
+
+            settingsContainer.innerHTML = '';
+            currentSitesConfig.forEach((site, index) => {
+                const div = document.createElement('div');
+                div.className = 'site-config-item';
+                div.innerHTML = `
+                    <label>${site.nomeSite} (${site.url.substring(0, 30)}...)</label>
+                    <input type="text" value="${site.url}" data-index="${index}" placeholder="URL Completa">
+                `;
+                settingsContainer.appendChild(div);
+            });
+        } catch (e) {
+            settingsContainer.innerHTML = `<p style="color:red">Erro ao carregar: ${e.message}</p>`;
+        }
+    });
+
+    document.getElementById('btnCloseSettings').addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    document.getElementById('btnSaveSettings').addEventListener('click', async () => {
+        const inputs = settingsContainer.querySelectorAll('input');
+        inputs.forEach(input => {
+            const index = input.getAttribute('data-index');
+            currentSitesConfig[index].url = input.value;
+        });
+
+        try {
+            const res = await fetch('/api/sites', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentSitesConfig)
+            });
+            if (res.ok) {
+                alert('Configurações salvas!');
+                modal.classList.add('hidden');
+                // Opcional: Recarregar stats
+            } else {
+                throw new Error('Erro ao salvar');
+            }
+        } catch (e) {
+            alert(e.message);
+        }
+    });
 });
 
 let allImoveis = [];
@@ -44,7 +101,7 @@ async function carregarImoveis() {
     const lista = document.getElementById("lista-imoveis");
 
     try {
-        // Fetch sites count
+
         try {
             const sitesRes = await fetch("/api/sites-count");
             if (sitesRes.ok) {

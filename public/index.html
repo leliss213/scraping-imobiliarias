@@ -28,6 +28,9 @@
                 <i class="fa-solid fa-search"></i>
                 <input type="text" id="searchInput" placeholder="Buscar por cidade, bairro...">
             </div>
+            <button id="btnSettings" class="btn-settings" title="Configurar URLs">
+                <i class="fa-solid fa-cog"></i>
+            </button>
             <button id="btnUpdate" class="btn-update">
                 <i class="fa-solid fa-sync"></i> Atualizar Imóveis
             </button>
@@ -47,6 +50,22 @@
             </div>
         </section>
     </main>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Configurar Sites</h2>
+                <button id="btnCloseSettings" class="btn-close"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="sitesConfigContainer">
+                <div class="loading-spinner">Carregando configurações...</div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSaveSettings" class="btn-save">Salvar Configurações</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="main-footer">
         <p>&copy; 2025 ImóveisFinder. Dados coletados via Scraper.</p>
