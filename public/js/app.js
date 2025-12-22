@@ -76,8 +76,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 const div = document.createElement('div');
                 div.className = 'site-config-item';
                 div.innerHTML = `
-                    <label>${site.nomeSite} (${site.url.substring(0, 30)}...)</label>
-                    <input type="text" value="${site.url}" data-index="${index}" placeholder="URL Completa">
+                    <div class="site-config-header">
+                        <label class="site-config-label">${site.nomeSite}</label>
+                        <div class="site-checkbox-wrapper">
+                            <input type="checkbox" id="enabled-${index}" ${site.enabled !== false ? 'checked' : ''} data-index="${index}" class="site-checkbox">
+                            <label for="enabled-${index}" class="site-checkbox-label">Ativo</label>
+                        </div>
+                    </div>
+                    <input type="text" value="${site.url}" data-index="${index}" placeholder="URL Completa" class="site-url-input">
                 `;
                 settingsContainer.appendChild(div);
             });
@@ -91,10 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById('btnSaveSettings').addEventListener('click', async () => {
-        const inputs = settingsContainer.querySelectorAll('input');
+        // Update URLs
+        const inputs = settingsContainer.querySelectorAll('.site-url-input');
         inputs.forEach(input => {
             const index = input.getAttribute('data-index');
             currentSitesConfig[index].url = input.value;
+        });
+
+        // Update Enabled State
+        const checkboxes = settingsContainer.querySelectorAll('.site-checkbox');
+        checkboxes.forEach(chk => {
+            const index = chk.getAttribute('data-index');
+            currentSitesConfig[index].enabled = chk.checked;
         });
 
         try {

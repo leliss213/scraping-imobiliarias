@@ -8,8 +8,15 @@ const fs = require('fs');
     let listaImoveis = [];
 
     for (const site of sites) {
+
+        // Skip sites marked as disabled
+        if (site.enabled === false) {
+            console.log(`Skipping disabled site: ${site.nomeSite}`);
+            continue;
+        }
+
         try {
-            console.log(`Iniciando scraping para o site: ${site.url}`);
+            console.log(`Iniciando scraping: ${site.nomeSite}`);
             const imoveis = await iniciarScraping(site);
             listaImoveis = listaImoveis.concat(imoveis);
         } catch (error) {

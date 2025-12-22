@@ -467,3 +467,27 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background-color: var(--primary-color);
 }
+
+/* Site Config Item Layout */
+.site-config-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.site-config-label {
+    margin: 0;
+}
+
+.site-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.site-checkbox-label {
+    margin: 0;
+    font-weight: normal;
+    font-size: 0.9rem;
+}
