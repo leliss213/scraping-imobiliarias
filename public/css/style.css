@@ -84,6 +84,7 @@ body {
     gap: 1rem;
 }
 
+/* Logo */
 .logo {
     display: flex;
     align-items: center;
@@ -91,16 +92,19 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-color);
+    flex-shrink: 0;
 }
 
 .logo span {
     color: var(--text-primary);
 }
 
+/* Header Layout Elements */
 .search-bar {
     position: relative;
     flex: 1;
-    max-width: 500px;
+    max-width: 600px;
+    margin: 0 1rem;
 }
 
 .search-bar input {
@@ -110,6 +114,8 @@ body {
     border-radius: 99px;
     font-family: var(--font-main);
     font-size: 0.95rem;
+    background: var(--input-bg);
+    color: var(--text-primary);
     transition: all 0.3s ease;
 }
 
@@ -125,6 +131,80 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-secondary);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Layout */
+.app-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    align-items: start;
+}
+
+/* Sidebar Filters */
+.sidebar {
+    position: sticky;
+    top: 100px;
+}
+
+.filter-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #f1f5f9;
+}
+
+.filter-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-group {
+    margin-bottom: 1.5rem;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.price-inputs-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.price-inputs-vertical input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    font-family: var(--font-main);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+
+.price-inputs-vertical input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 /* Stats Bar */
@@ -336,6 +416,16 @@ body {
     .header-content {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .filters-container {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .search-bar,
+    .price-inputs {
+        width: 100%;
     }
 }
 

@@ -281,9 +281,24 @@ function removeLoadMoreButton() {
     if (btn) btn.remove();
 }
 
-function filtrarImoveis(termo) {
+// Event Listeners para filtros de preço
+const minPriceInput = document.getElementById('minPrice');
+const maxPriceInput = document.getElementById('maxPrice');
+
+[minPriceInput, maxPriceInput].forEach(input => {
+    input.addEventListener('input', () => filtrarImoveis());
+});
+
+// Atualiza o listener de busca para chamar a função sem argumentos
+searchInput.addEventListener('input', () => filtrarImoveis());
+
+function filtrarImoveis() {
+    const termo = document.getElementById('searchInput').value.toLowerCase();
+    const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+    const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+
     filteredImoveis = allImoveis.filter(imovel => {
-        // Concatena campos para busca
+        // Filtro de Texto
         const campos = [
             imovel.nomeSite,
             imovel.tipoImovel,
@@ -292,7 +307,15 @@ function filtrarImoveis(termo) {
             imovel.preco
         ].map(v => v ? v.toLowerCase() : '').join(' ');
 
-        return campos.includes(termo);
+        const matchesText = campos.includes(termo);
+
+        // Filtro de Preço
+        const precoNumerico = parsePrice(imovel.preco);
+        // Lógica: Se tem minPrice > 0, exclui quem não tem preço.
+
+        const matchesPrice = (precoNumerico >= minPrice) && (precoNumerico <= maxPrice);
+
+        return matchesText && matchesPrice;
     });
 
     // Atualiza Stats com o total filtrado

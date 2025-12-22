@@ -29,31 +29,51 @@
                 <i class="fa-solid fa-search"></i>
                 <input type="text" id="searchInput" placeholder="Buscar por cidade, bairro...">
             </div>
-            <button id="btnThemeToggle" class="btn-settings" title="Alternar Tema">
-                <i class="fa-solid fa-moon"></i>
-            </button>
-            <button id="btnSettings" class="btn-settings" title="Configurar URLs">
-                <i class="fa-solid fa-cog"></i>
-            </button>
-            <button id="btnUpdate" class="btn-update">
-                <i class="fa-solid fa-sync"></i> Atualizar Imóveis
-            </button>
+            <div class="header-actions">
+                <button id="btnThemeToggle" class="btn-settings" title="Alternar Tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button id="btnSettings" class="btn-settings" title="Configurar URLs">
+                    <i class="fa-solid fa-cog"></i>
+                </button>
+                <button id="btnUpdate" class="btn-update">
+                    <i class="fa-solid fa-sync"></i> Atualizar Imóveis
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="container">
-        <section class="stats-bar" id="statsBar">
-            <!-- Stats injetados via JS -->
-            <div class="skeleton-stat"></div>
-        </section>
+    <div class="container app-layout">
+        <aside class="sidebar">
+            <div class="filter-card">
+                <h3><i class="fa-solid fa-filter"></i> Filtros</h3>
 
-        <section id="lista-imoveis" class="imoveis-grid">
-            <!-- Cards injetados via JS -->
-            <div class="loading-spinner">
-                <i class="fa-solid fa-circle-notch fa-spin"></i> Carregando imóveis...
+                <div class="filter-group">
+                    <label>Faixa de Preço</label>
+                    <div class="price-inputs-vertical">
+                        <input type="number" id="minPrice" placeholder="Mínimo (R$)" title="Preço Mínimo">
+                        <input type="number" id="maxPrice" placeholder="Máximo (R$)" title="Preço Máximo">
+                    </div>
+                </div>
+
+                <!-- Future filters can go here -->
             </div>
-        </section>
-    </main>
+        </aside>
+
+        <main class="content">
+            <section class="stats-bar" id="statsBar">
+                <!-- Stats injetados via JS -->
+                <div class="skeleton-stat"></div>
+            </section>
+
+            <section id="lista-imoveis" class="imoveis-grid">
+                <!-- Cards injetados via JS -->
+                <div class="loading-spinner">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Carregando imóveis...
+                </div>
+            </section>
+        </main>
+    </div>
 
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal-overlay hidden">
