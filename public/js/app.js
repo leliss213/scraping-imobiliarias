@@ -215,12 +215,12 @@ function renderizarImoveis(imoveis, page = 1) {
         card.classList.add("card");
 
         // Fallback imagem
-        const imgUrl = imovel.imagem || 'https://via.placeholder.com/300?text=Sem+Foto';
+        const imgUrl = imovel.imagem || 'assets/no-image.svg';
 
         card.innerHTML = `
             <div class="card-image">
                 <span class="badge-site">${imovel.nomeSite || imovel.site || 'Site'}</span>
-                <img src="${imgUrl}" alt="Foto do imóvel" onerror="this.src='https://via.placeholder.com/300?text=Sem+Foto'">
+                <img src="${imgUrl}" alt="Foto do imóvel" onError="this.src='assets/no-image.svg'">
             </div>
             
             <div class="card-content">
@@ -309,7 +309,7 @@ function atualizarStats(totalImoveis, totalSites) {
 
     statsContainer.innerHTML = `
         <div class="stat-tag"><i class="fa-solid fa-home"></i> ${totalImoveis} Imóveis Exibidos</div>
-        <div class="stat-tag"><i class="fa-solid fa-globe"></i> ${displaySites} Sites Rastreados</div>
+        <div class="stat-tag"><i class="fa-solid fa-globe"></i> ${displaySites} Imobiliárias Rastreáveis</div>
         <div class="stat-tag"><i class="fa-solid fa-clock"></i> Data: ${new Date().toLocaleDateString()}</div>
     `;
 }

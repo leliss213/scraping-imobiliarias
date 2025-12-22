@@ -11,7 +11,7 @@ const fs = require('fs');
 
         // Skip sites marked as disabled
         if (site.enabled === false) {
-            console.log(`Skipping disabled site: ${site.nomeSite}`);
+            console.log(`Pulou site desabilitado: ${site.nomeSite}`);
             continue;
         }
 
@@ -53,6 +53,7 @@ async function iniciarScraping(site) {
         ]
     });
     const page = await browser.newPage();
+
     var listaImoveis = []
     var imoveis = []
 
@@ -68,11 +69,8 @@ async function iniciarScraping(site) {
         // Rola a pagina ate carregar todos os imoveis
         await scrollToEnd(page);
 
-        console.log(site.hrefImovel)
-        console.log(site.hrefImovel2)
-
-        if (site.hrefImovel) {
-            await page.waitForSelector(site.hrefImovel, { timeout: 10000 });
+        if (site.containerSelector) {
+            await page.waitForSelector(site.containerSelector, { timeout: 15000 });
         }
 
         // Coleta os imoveis
@@ -93,9 +91,14 @@ async function iniciarScraping(site) {
             selectorNextButton = selectorNextButton + `:nth-of-type(${qntdNode})`
         }
 
-        console.log(selectorNextButton)
-
         const nextButton = await page.$(selectorNextButton);
+
+        // DEBUG MEGHA
+        if (site.nomeSite === 'imoveismegha') {
+            const paginationHtml = await page.evaluate(() => document.querySelector('.pagination')?.outerHTML || "Pagination not found");
+            console.log(`[DEBUG MEGHA PAGINATION HTML] ${paginationHtml}`);
+        }
+
         const nextButtonDisabled = nextButton ? await page.evaluate(el => el.getAttribute('aria-disabled') === 'true', nextButton) : true;
         var nextButtonSelectorVariable = `${selectorNextButton}:nth-of-type(${contadorPaginas + 1}) a`
 
@@ -105,8 +108,7 @@ async function iniciarScraping(site) {
             }
         } else {
             if (!nextButton || nextButtonDisabled) {
-                console.log(!nextButton)
-                console.log(nextButtonDisabled)
+                console.log(`[DEBUG PAGINATION] Break loop. Button found? ${!!nextButton}. Disabled? ${nextButtonDisabled}`);
                 break;
             }
         }
@@ -114,12 +116,24 @@ async function iniciarScraping(site) {
         if (typeNextButton === 2) {
             await page.click(nextButtonSelectorVariable);
         } else {
-            await page.click(selectorNextButton)
-        }
+            // Check for disabled state on parent LI (Bootstrap common pattern)
+            const isLiDisabled = await page.evaluate(el => el.closest('li')?.classList.contains('disabled'), nextButton);
+            if (isLiDisabled) {
+                console.log("[DEBUG] Parent LI is disabled. Breaking.");
+                break;
+            }
 
-        // Aguarda a nova pagina carregar antes de rolar
-        if (typeNextButton != 4) {
-            await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 });
+            try {
+                await Promise.all([
+                    page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }),
+                    page.click(selectorNextButton)
+                ]);
+            } catch (e) {
+                console.log(`[WARNING] Navigation timeout or click failed: ${e.message}`);
+                // Try JS click as fallback if standard click failed to trigger nav
+                /* await page.evaluate(el => el.click(), nextButton); */
+                break; // Break if navigation fails to avoid infinite loop on same page
+            }
         }
 
         await waitForScrollEnd(page);
@@ -144,21 +158,39 @@ async function scrollToEnd(page) {
     }
 }
 
-// Funcao para coletar imoveis a partir dos seletores especificos
 async function coletarImoveis(page, site) {
 
     const imoveis = await page.evaluate((site) => {
-
         let lista = [];
-        let elementos = document.querySelectorAll(site.containerSelector);
+        var elementos = document.querySelectorAll(site.containerSelector);
+        console.log(`[${site.nomeSite}] Elementos encontrados: ${elementos.length}`);
 
         elementos.forEach(el => {
 
             let localizacao = el.querySelector(site.localizacaoSelector)?.innerText.trim();
             let preco = el.querySelector(site.precoSelector)?.innerText.trim();
 
-            if (site.imagemSelector != null)
-                var imagem = el.querySelector(site.imagemSelector)?.src;
+            if (site.imagemSelector != null) {
+                const imgEl = el.querySelector(site.imagemSelector);
+                if (imgEl) {
+                    var imagem = imgEl.src;
+
+                    // Se a imagem nao for encontrada, tenta buscar pelo background-image
+                    if (!imagem) {
+                        const bgImage = window.getComputedStyle(imgEl).backgroundImage;
+                        if (bgImage && bgImage !== 'none') {
+                            // Regex para remover lixo do css
+                            imagem = bgImage.replace(/^url\(['"]?(.+?)['"]?\)$/, '$1');
+
+                            // Se o caminho da imagem começar com '/' concatena com a URL base
+                            if (imagem.startsWith('/')) {
+                                const baseUrl = site.hostImovel || new URL(site.url).origin;
+                                imagem = baseUrl + imagem;
+                            }
+                        }
+                    }
+                }
+            }
 
             let nomeSite = site.nomeSite
             let tipoImovel = el.querySelector(site.tipoImovelSelector)?.innerText.trim();
@@ -171,7 +203,7 @@ async function coletarImoveis(page, site) {
 
             // monta o link do imovel
             if (pathImovel != null)
-                var linkImovel = site.hostImovel + pathImovel
+                var linkImovel = (site.hostImovel == null) ? pathImovel : site.hostImovel + pathImovel;
 
             if (preco || localizacao || linkImovel) {
                 lista.push({ localizacao, preco, tipoImovel, infosImovel, nomeSite, linkImovel, imagem });

@@ -1,6 +1,6 @@
 [
     {
-        "enabled": true,
+        "enabled": false,
         "url": "https://www.karnoppimoveis.com.br/venda?address=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22city%22%3A8079%2C%22state%22%3A23%7D%7D%5D&sort=2&page=1&price_range=%7B%22min%22%3A3500100%2C%22max%22%3A30000000%7D",
         "containerSelector": ".carousel-card_content__QNF2s",
         "localizacaoSelector": ".vertical-property-card_neighborhood__YZK9N",
@@ -18,7 +18,7 @@
         }
     },
     {
-        "enabled": true,
+        "enabled": false,
         "url": "https://www.borbaimoveis.com.br/alugar/rio-grande-do-sul/santa-cruz-do-sul/apartamento?precoMaximo=400000&tipos=%22apartamento%2Cloft%2Ccasa%2Csobrado%2Cgeminado%2Cterreno-lote%2Cduplex%22&ordenacao=%22menor-valor%22&pagina=1&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D&transacao=%22alugar%22",
         "containerSelector": ".carousel-card_fullWidth__QE1sX",
         "localizacaoSelector": ".vertical-property-card_neighborhood__YZK9N",
@@ -36,7 +36,7 @@
         }
     },
     {
-        "enabled": true,
+        "enabled": false,
         "url": "https://www.predilarimoveis.com.br/alugar/rio-grande-do-sul/santa-cruz-do-sul?precoMaximo=495000&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D&transacao=%22alugar%22&pagina=1",
         "containerSelector": ".card_card__dhUFB",
         "localizacaoSelector": ".vertical-property-card_neighborhood__YZK9N",
@@ -54,7 +54,7 @@
         }
     },
     {
-        "enabled": true,
+        "enabled": false,
         "url": "https://www.dlimoveis-rs.com.br/imovel/venda/todos/santa-cruz-do-sul/?&vma=300000",
         "containerSelector": ".imovelcard",
         "localizacaoSelector": ".imovelcard__info__local",
@@ -72,17 +72,17 @@
         }
     },
     {
-        "enabled": true,
+        "enabled": false,
         "url": "https://www.imobel.com.br/Imoveis/Busca/1/0?carteira=L&cidade=5&valor_l=3&valor_v=2&dormitorios=0&garagem=0&banheiro=0&area=0&codigo=",
         "containerSelector": ".lista .col-md-4",
-        "localizacaoSelector": ".info .text p:nth-of-type(2)",
-        "precoSelector": ".info .text p:nth-of-type(3) span",
-        "imagemSelector": null,
-        "tipoImovelSelector": ".info .text p",
+        "localizacaoSelector": ".imovel-bairro",
+        "precoSelector": ".imovel-valor",
+        "imagemSelector": ".foto-container img",
+        "tipoImovelSelector": ".thumb-imovel .tipo",
         "infosImovelSelector": null,
         "nomeSite": "imobel",
-        "hostImovel": "https://www.imobel.com.br",
-        "hrefImovel": ".lista .col-md-4 a",
+        "hostImovel": "https://www.imobel.com.br/",
+        "hrefImovel": ".thumb-imovel > .ajax",
         "hrefImovel2": null,
         "nextButtonSelector": {
             "selector": ".pagination .active + li a",
@@ -92,18 +92,18 @@
     {
         "enabled": true,
         "url": "https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?id_opcao=2&id_tipo=0&id_cidade=0&dormitorios=&valorinicial=&valorfinal=&cod=&ok=",
-        "containerSelector": ".row .col-sm-6",
+        "containerSelector": ".container .spc-ver .row .margin-bottom",
         "localizacaoSelector": ".info .text p:nth-of-type(2)",
         "precoSelector": ".info .text p:nth-of-type(3) span",
-        "imagemSelector": null,
+        "imagemSelector": ".box2 .bg-image",
         "tipoImovelSelector": ".info .text p",
         "infosImovelSelector": null,
         "nomeSite": "imoveismegha",
-        "hostImovel": ".margin-bottom a",
-        "hrefImovel": null,
+        "hostImovel": null,
+        "hrefImovel": "a",
         "hrefImovel2": null,
         "nextButtonSelector": {
-            "selector": ".glyphicon-chevron-right",
+            "selector": ".pagination li:last-child a",
             "tipoNextButton": 1
         }
     }

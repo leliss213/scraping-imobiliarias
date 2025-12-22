@@ -7,6 +7,7 @@ services:
       # Espelha o frontend para atualizações em tempo real (sem precisar reiniciar)
       - ./public:/app/public
       - ./server.js:/app/server.js
+      - ./scraper.js:/app/scraper.js
       - ./sites.json:/app/sites.json
       # Persiste os arquivos gerados (json e xlsx) na pasta local mapeada para /app/data
       - ./data:/app/data
