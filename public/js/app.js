@@ -83,7 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
                             <label for="enabled-${index}" class="site-checkbox-label">Ativo</label>
                         </div>
                     </div>
-                    <input type="text" value="${site.url}" data-index="${index}" placeholder="URL Completa" class="site-url-input">
+                    <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                        <input type="text" value="${site.url_venda || ''}" data-index="${index}" data-type="venda" placeholder="URL Venda" class="site-url-input">
+                        <input type="text" value="${site.url_aluguel || ''}" data-index="${index}" data-type="aluguel" placeholder="URL Aluguel" class="site-url-input">
+                    </div>
                 `;
                 settingsContainer.appendChild(div);
             });
@@ -101,7 +104,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const inputs = settingsContainer.querySelectorAll('.site-url-input');
         inputs.forEach(input => {
             const index = input.getAttribute('data-index');
-            currentSitesConfig[index].url = input.value;
+            const type = input.getAttribute('data-type');
+
+            if (type === 'venda') {
+                currentSitesConfig[index].url_venda = input.value;
+            } else if (type === 'aluguel') {
+                currentSitesConfig[index].url_aluguel = input.value;
+            }
         });
 
         // Update Enabled State
@@ -284,8 +293,10 @@ function removeLoadMoreButton() {
 // Event Listeners para filtros de preço
 const minPriceInput = document.getElementById('minPrice');
 const maxPriceInput = document.getElementById('maxPrice');
+const filterVendaInput = document.getElementById('filterVenda');
+const filterAluguelInput = document.getElementById('filterAluguel');
 
-[minPriceInput, maxPriceInput].forEach(input => {
+[minPriceInput, maxPriceInput, filterVendaInput, filterAluguelInput].forEach(input => {
     input.addEventListener('input', () => filtrarImoveis());
 });
 
@@ -296,6 +307,13 @@ function filtrarImoveis() {
     const termo = document.getElementById('searchInput').value.toLowerCase();
     const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
     const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+
+    // Toggle States
+    const showVenda = document.getElementById('filterVenda').checked;
+    const showAluguel = document.getElementById('filterAluguel').checked;
+
+    // Se ambos DESMARCADOS, mostra TUDO (behaviour requested: "mostra tudo, tanto aluguel quanto compra")
+    const showAll = (!showVenda && !showAluguel);
 
     filteredImoveis = allImoveis.filter(imovel => {
         // Filtro de Texto
@@ -311,11 +329,23 @@ function filtrarImoveis() {
 
         // Filtro de Preço
         const precoNumerico = parsePrice(imovel.preco);
-        // Lógica: Se tem minPrice > 0, exclui quem não tem preço.
-
         const matchesPrice = (precoNumerico >= minPrice) && (precoNumerico <= maxPrice);
 
-        return matchesText && matchesPrice;
+        // Filtro Tipo de Negócio (1=Venda, 2=Aluguel)
+        // Se showAll=true, ignora o filtro de tipo.
+        // Se nao, verifica se o tipo do imovel bate com algum checkbox marcado.
+        // Se imovel.tipo_negocio for undefined (legado), assumimos que aparece se Venda estiver marcado (default) ou mostra se showAll.
+
+        let matchesType = false;
+        if (showAll) {
+            matchesType = true;
+        } else {
+            const tipo = imovel.tipo_negocio || 1; // Default to Venda if missing
+            if (tipo === 1 && showVenda) matchesType = true;
+            if (tipo === 2 && showAluguel) matchesType = true;
+        }
+
+        return matchesText && matchesPrice && matchesType;
     });
 
     // Atualiza Stats com o total filtrado

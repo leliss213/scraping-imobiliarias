@@ -1,7 +1,8 @@
 [
     {
-        "enabled": false,
-        "url": "https://www.karnoppimoveis.com.br/venda?address=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22city%22%3A8079%2C%22state%22%3A23%7D%7D%5D&sort=2&page=1&price_range=%7B%22min%22%3A3500100%2C%22max%22%3A30000000%7D",
+        "enabled": true,
+        "url_venda": "https://www.karnoppimoveis.com.br/venda?address=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22value%22%3A%7B%22city%22%3A8079%2C%22state%22%3A23%7D%7D%5D&sort=2&page=1&price_range=%7B%22min%22%3A3500100%2C%22max%22%3A30000000%7D",
+        "url_aluguel": "",
         "containerSelector": ".carousel-card_content__QNF2s",
         "localizacaoSelector": ".vertical-property-card_neighborhood__YZK9N",
         "precoSelector": ".contracts_priceNumber__WhudD",
@@ -18,8 +19,9 @@
         }
     },
     {
-        "enabled": false,
-        "url": "https://www.borbaimoveis.com.br/alugar/rio-grande-do-sul/santa-cruz-do-sul/apartamento?precoMaximo=400000&tipos=%22apartamento%2Cloft%2Ccasa%2Csobrado%2Cgeminado%2Cterreno-lote%2Cduplex%22&ordenacao=%22menor-valor%22&pagina=1&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D&transacao=%22alugar%22",
+        "enabled": true,
+        "url_venda": "https://www.borbaimoveis.com.br/venda/rio-grande-do-sul/santa-cruz-do-sul/apartamento?precoMaximo=250000000&transacao=%22venda%22&tipos=%22apartamento%2Cloft%2Ccasa%2Csobrado%2Cgeminado%2Cterreno-lote%2Cduplex%22&ordenacao=%22menor-valor%22&pagina=21&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D",
+        "url_aluguel": "https://www.borbaimoveis.com.br/alugar/rio-grande-do-sul/santa-cruz-do-sul/apartamento?precoMaximo=400000&tipos=%22apartamento%2Cloft%2Ccasa%2Csobrado%2Cgeminado%2Cterreno-lote%2Cduplex%22&ordenacao=%22menor-valor%22&pagina=1&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D&transacao=%22alugar%22",
         "containerSelector": ".carousel-card_fullWidth__QE1sX",
         "localizacaoSelector": ".vertical-property-card_neighborhood__YZK9N",
         "precoSelector": ".contracts_priceNumber__WhudD",
@@ -36,8 +38,9 @@
         }
     },
     {
-        "enabled": false,
-        "url": "https://www.predilarimoveis.com.br/alugar/rio-grande-do-sul/santa-cruz-do-sul?precoMaximo=495000&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D&transacao=%22alugar%22&pagina=1",
+        "enabled": true,
+        "url_venda": "https://www.predilarimoveis.com.br/venda/rio-grande-do-sul/santa-cruz-do-sul/apartamento?precoMaximo=250000000&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D&transacao=%22venda%22&pagina=1&tipos=%22apartamento%2Cduplex%2Cterreno-lote%2Ccasa%2Cgeminado%2Ctriplex%2Ccobertura%2Cloft%2Ckitnet%2Cstudio%2Cflat%22",
+        "url_aluguel": "https://www.predilarimoveis.com.br/alugar/rio-grande-do-sul/santa-cruz-do-sul?precoMaximo=495000&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D&transacao=%22alugar%22&pagina=1",
         "containerSelector": ".card_card__dhUFB",
         "localizacaoSelector": ".vertical-property-card_neighborhood__YZK9N",
         "precoSelector": ".contracts_priceNumber__WhudD",
@@ -54,8 +57,9 @@
         }
     },
     {
-        "enabled": false,
-        "url": "https://www.dlimoveis-rs.com.br/imovel/venda/todos/santa-cruz-do-sul/?&vma=300000",
+        "enabled": true,
+        "url_venda": "https://www.dlimoveis-rs.com.br/imovel/venda/todos/santa-cruz-do-sul",
+        "url_aluguel": "https://www.dlimoveis-rs.com.br/imovel/locacao/todos/santa-cruz-do-sul",
         "containerSelector": ".imovelcard",
         "localizacaoSelector": ".imovelcard__info__local",
         "precoSelector": ".imovelcard__valor__valor",
@@ -72,8 +76,9 @@
         }
     },
     {
-        "enabled": false,
-        "url": "https://www.imobel.com.br/Imoveis/Busca/1/0?carteira=L&cidade=5&valor_l=3&valor_v=2&dormitorios=0&garagem=0&banheiro=0&area=0&codigo=",
+        "enabled": true,
+        "url_venda": "https://www.imobel.com.br/Imoveis/Busca/1/0?carteira=V&cidade=5&valor_l=0&valor_v=0&dormitorios=0&garagem=0&banheiro=0&area=0&codigo=",
+        "url_aluguel": "https://www.imobel.com.br/Imoveis/Busca/1/0?carteira=L&cidade=5&valor_l=3&valor_v=2&dormitorios=0&garagem=0&banheiro=0&area=0&codigo=",
         "containerSelector": ".lista .col-md-4",
         "localizacaoSelector": ".imovel-bairro",
         "precoSelector": ".imovel-valor",
@@ -91,7 +96,8 @@
     },
     {
         "enabled": true,
-        "url": "https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?id_opcao=2&id_tipo=0&id_cidade=0&dormitorios=&valorinicial=&valorfinal=&cod=&ok=",
+        "url_venda": "https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?id_opcao=1&id_tipo=0&id_cidade=1&id_bairro=0&dormitorios=&valorinicial=&valorfinal=&cod=&ok=",
+        "url_aluguel": "https://imoveismegha.com.br/conteudos/imoveis/listaimoveis.php?id_opcao=2&id_tipo=0&id_cidade=0&dormitorios=&valorinicial=&valorfinal=&cod=&ok=",
         "containerSelector": ".container .spc-ver .row .margin-bottom",
         "localizacaoSelector": ".info .text p:nth-of-type(2)",
         "precoSelector": ".info .text p:nth-of-type(3) span",
