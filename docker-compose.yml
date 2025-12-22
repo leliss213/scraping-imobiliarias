@@ -4,9 +4,12 @@ services:
     ports:
       - "3000:3000"
     volumes:
+      # Espelha o frontend para atualizações em tempo real (sem precisar reiniciar)
+      - ./public:/app/public
+      - ./server.js:/app/server.js
+      - ./sites.json:/app/sites.json
       # Persiste os arquivos gerados (json e xlsx) na pasta local mapeada para /app/data
       - ./data:/app/data
-      # Mapeia logs se necessário, ou outros arquivos
     environment:
       - NODE_ENV=production
       - PORT=3000

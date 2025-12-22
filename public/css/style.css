@@ -277,7 +277,7 @@ body {
     display: block;
     width: 100%;
     text-align: center;
-    background: var(--text-primary);
+    background: var(--primary-color);
     color: #fff;
     padding: 1rem;
     margin-top: 1rem;
@@ -289,7 +289,7 @@ body {
 }
 
 .btn-view:hover {
-    background: #0f172a;
+    background: var(--secondary-color);
 }
 
 .card .btn-wrapper {
@@ -447,4 +447,23 @@ body {
 .btn-settings:hover {
     background: var(--config-item-bg);
     color: var(--primary-color);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--text-secondary);
+    border-radius: 6px;
+    border: 3px solid var(--background-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-color);
 }
