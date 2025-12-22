@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Rota específica para o JSON de imóveis (que está na raiz)
 app.get('/imoveis.json', (req, res) => {
-    const jsonPath = path.join(__dirname, 'imoveis.json');
+    const jsonPath = path.join(__dirname, 'data', 'imoveis.json');
     if (fs.existsSync(jsonPath)) {
         res.sendFile(jsonPath);
     } else {

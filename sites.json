@@ -34,23 +34,6 @@
         }
     },
     {
-        "url": "https://www.imobel.com.br/Imoveis/Busca/1/0?carteira=L&cidade=5&valor_l=3&valor_v=2&dormitorios=0&garagem=0&banheiro=0&area=0&codigo=",
-        "containerSelector": ".lista .col-md-4",
-        "localizacaoSelector": ".imovel-bairro",
-        "precoSelector": ".imovel-valor",
-        "imagemSelector": ".foto-imovel",
-        "tipoImovelSelector": ".imovel-tipo",
-        "infosImovelSelector": ".area",
-        "nomeSite": "imobel",
-        "hostImovel": "https://www.imobel.com.br/",
-        "hrefImovel": ".ajax",
-        "hrefImovel2": ".ajax",
-        "nextButtonSelector": {
-            "selector": "null",
-            "tipoNextButton": 3
-        }
-    },
-    {
         "url": "https://www.predilarimoveis.com.br/alugar/rio-grande-do-sul/santa-cruz-do-sul?precoMaximo=495000&endereco=%5B%7B%22label%22%3A%22Santa+Cruz+do+Sul+-+RS%22%2C%22valor%22%3A%7B%22cidade%22%3A8079%2C%22estado%22%3A23%7D%2C%22cidade%22%3A%22santa-cruz-do-sul%22%2C%22estado%22%3A%22rio-grande-do-sul%22%7D%5D&transacao=%22alugar%22&pagina=1",
         "containerSelector": ".card_card__dhUFB",
         "localizacaoSelector": ".vertical-property-card_neighborhood__YZK9N",

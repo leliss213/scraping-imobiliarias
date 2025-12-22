@@ -120,7 +120,7 @@ let allImoveis = [];
 let filteredImoveis = [];
 let sitesCount = 0;
 let currentPage = 1;
-const ITEMS_PER_PAGE = 120;
+const ITEMS_PER_PAGE = 60;
 
 async function carregarImoveis() {
     const lista = document.getElementById("lista-imoveis");
@@ -137,7 +137,7 @@ async function carregarImoveis() {
             console.error("Erro ao buscar contagem de sites", e);
         }
 
-        const response = await fetch("/imoveis.json");
+        const response = await fetch(`/imoveis.json?t=${new Date().getTime()}`);
 
         if (!response.ok) throw new Error("Erro ao carregar JSON");
 

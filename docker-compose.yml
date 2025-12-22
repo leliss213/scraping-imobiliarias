@@ -1,14 +1,11 @@
-version: '3.8'
-
 services:
   app:
     build: .
     ports:
       - "3000:3000"
     volumes:
-      # Persiste os arquivos gerados (json e xlsx) na pasta local
-      - ./imoveis.json:/app/imoveis.json
-      - ./imoveis.xlsx:/app/imoveis.xlsx
+      # Persiste os arquivos gerados (json e xlsx) na pasta local mapeada para /app/data
+      - ./data:/app/data
       # Mapeia logs se necessário, ou outros arquivos
     environment:
       - NODE_ENV=production

@@ -8,18 +8,30 @@ const fs = require('fs');
     let listaImoveis = [];
 
     for (const site of sites) {
-        console.log(`Iniciando scraping para o site: ${site.url}`);
-        const imoveis = await iniciarScraping(site);
-        listaImoveis = listaImoveis.concat(imoveis);
+        try {
+            console.log(`Iniciando scraping para o site: ${site.url}`);
+            const imoveis = await iniciarScraping(site);
+            listaImoveis = listaImoveis.concat(imoveis);
+        } catch (error) {
+            console.error(`Erro ao processar o site ${site.url}:`, error);
+        }
     }
 
     // Ordena a lista de imoveis por preco
     listaImoveis.sort((a, b) => a.preco - b.preco);
 
+    const dataDir = "data";
+    if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
+    }
+
     const jsonData = JSON.stringify(listaImoveis.sort(), null, 2);
-    fs.writeFileSync("imoveis.json", jsonData, "utf-8");
+    fs.writeFileSync(`${dataDir}/imoveis.json`, jsonData, "utf-8");
 
     converterPlanilha(listaImoveis)
+
+    console.log("Scraping finalizado com sucesso.");
+    process.exit(0);
 
 })();
 
