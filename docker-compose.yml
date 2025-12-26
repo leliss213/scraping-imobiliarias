@@ -16,3 +16,5 @@ services:
       - PORT=3000
     # Opcional: Garante que o puppeteer tenha memória suficiente /dev/shm
     shm_size: '1gb'
+    tty: true
+    stdin_open: true
